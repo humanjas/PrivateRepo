@@ -65,22 +65,23 @@ public:
 		return visitTree_recursive(tree, countOnlyEvenLevels, count);
 	}
 
-	float visitTree_recursive(const Tree& tree, bool countOnlyEvenLevels, float &count){
+	float visitTree_recursive(const Tree& tree, bool countOnlyEvenLevels, float &count) {
 		std::list<Tree>::const_iterator iterator;
 		std::list<Tree> children = tree.children;
 		Tree temp;
 
-	for (iterator = children.begin(); iterator != children.end(); ++iterator) {
-		temp = *iterator;
-		if (countOnlyEvenLevels == true && ((int)(temp.value / 2) % 2) != 0) {
-			visitTree_recursive(temp, countOnlyEvenLevels, count);
+		for (iterator = children.begin(); iterator != children.end(); ++iterator) {
+			temp = *iterator;
+			if (countOnlyEvenLevels == true && ((int)(temp.value / 2) % 2) != 0) {
+				visitTree_recursive(temp, countOnlyEvenLevels, count);
+			}
+			else {
+				count += temp.value;
+				visitTree_recursive(temp, countOnlyEvenLevels, count);
+			}
 		}
-		else {
-			count += temp.value;
-			visitTree_recursive(temp, countOnlyEvenLevels, count);
-		}
+		return count;
 	}
-	return count;
 };
 //////////////////////////////////////////////////////////////////
 

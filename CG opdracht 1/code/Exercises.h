@@ -3,18 +3,18 @@
 
 #include <list>
 #include <set>
-#include <iostream>     // std::cout
-#include <functional>   // std::greater
-#include <algorithm>    // std::sort
+#include <iostream>     // cout
+#include <functional>   // greater
+#include <algorithm>    // sort
 
 using namespace std;
 ////////////////// Exercise 1 ////////////////////////////////////
-float calc_mean(const std::list<float> values) {
+float calc_mean(const list<float> values) {
 	// Initialize variable	
 	float sum = 0.f;
 
 	// Loop through the list to get the sum
-	for (std::list<float>::const_iterator it = values.begin(); it != values.end(); it++) {
+	for (list<float>::const_iterator it = values.begin(); it != values.end(); it++) {
 		sum += *it;
 	}
 
@@ -25,12 +25,12 @@ float calc_mean(const std::list<float> values) {
 	return mean;
 }
 
-float calc_StandardDeviation(const std::list<float> values, float mean) {
+float calc_StandardDeviation(const list<float> values, float mean) {
 	// Initialize variable
 	float cum_dev = 0.f;
 
 	// Loop through the list
-	for (std::list<float>::const_iterator it = values.begin(); it != values.end(); it++) {
+	for (list<float>::const_iterator it = values.begin(); it != values.end(); it++) {
 		// To get the square of the difference of the value and the mean
 		cum_dev += pow((mean - *it), 2);
 	}
@@ -46,10 +46,10 @@ float calc_StandardDeviation(const std::list<float> values, float mean) {
 }
 
 
-std::pair<float, float> Statistics(const std::list<float>& values)
+pair<float, float> Statistics(const list<float>& values)
 {
 	// If the values list is empty, return 0
-	if (values.size() == 0) return std::pair<float, float>(0.f, 0.f);
+	if (values.size() == 0) return pair<float, float>(0.f, 0.f);
 	
 	// Otherwise calculate the mean
 	float mean = calc_mean(values);
@@ -57,7 +57,7 @@ std::pair<float, float> Statistics(const std::list<float>& values)
 	float standard_Deviation = calc_StandardDeviation(values, mean);
 	
 	// And return it
-	return std::pair<float, float>(mean, standard_Deviation);
+	return pair<float, float>(mean, standard_Deviation);
 }
 //////////////////////////////////////////////////////////////////
 
@@ -70,8 +70,8 @@ public:
 	}
 
 	float visitTree_recursive(const Tree& tree, bool countOnlyEvenLevels, float &count) {
-		std::list<Tree>::const_iterator iterator;
-		std::list<Tree> children = tree.children;
+		list<Tree>::const_iterator iterator;
+		list<Tree> children = tree.children;
 		Tree temp;
 
 		for (iterator = children.begin(); iterator != children.end(); ++iterator) {
@@ -120,13 +120,13 @@ class Complex {
 //////////////////////////////////////////////////////////////////
 
 ////////////////// Exercise 4 ////////////////////////////////////
-float WaterLevels(std::list<float> heights)
+float WaterLevels(list<float> heights)
 {
 	float res = 0.f;
-	std::list<float>::const_iterator iterator;
+	list<float>::const_iterator iterator;
 
 	// Get max value (Start)
-	std::list<float>::const_iterator max = heights.begin();
+	list<float>::const_iterator max = heights.begin();
 	for (iterator = heights.begin(); iterator != heights.end(); iterator++) {
 		if (*iterator > *max) {
 			max = iterator;
@@ -135,7 +135,7 @@ float WaterLevels(std::list<float> heights)
 	// (End)
 
 	// Split list (Start)
-	std::list<float> temp1;
+	list<float> temp1;
 
 	temp1.splice(temp1.begin(), heights, max, heights.end());
 	//(End) 
@@ -153,21 +153,21 @@ float WaterLevels(std::list<float> heights)
 	// Heights now contains (6,4,7,6)
 
 
-	heights.sort(std::greater<float>()); 
+	heights.sort(greater<float>());
 	// Heights now contains (7,7,6,6,4)
-	temp1.sort(std::greater<float>());
+	temp1.sort(greater<float>());
 	// Temp1 now contains (5,3,1)
 
 	// Calculate water of the first part (Start)
 	float res1 = 0.f;
-	for (std::list<float>::const_iterator i = heights.begin(); i != heights.end(); i++){
+	for (list<float>::const_iterator i = heights.begin(); i != heights.end(); i++){
 		res1 = res1 + (heights.front() - (*i));
 	}
 	//(End)
 
 	// Calculate water of the second part (Start)
 	float res2 = 0.f;
-	for (std::list<float>::const_iterator i = temp1.begin(); i != temp1.end(); i++){
+	for (list<float>::const_iterator i = temp1.begin(); i != temp1.end(); i++){
 		res2 = res2 + (temp1.front() - (*i));
 	}
 	//(End)
@@ -180,10 +180,45 @@ float WaterLevels(std::list<float> heights)
 //////////////////////////////////////////////////////////////////
 
 ////////////////// Exercise 5 ////////////////////////////////////
-typedef std::pair<int, int> location;
+typedef pair<int, int> location;
 
-int Labyrinth(std::set<std::pair<location, location> > labyrinth, int size)
+int Labyrinth(set<pair<location, location> > labyrinth, int size)
 {
+	set<location> visited;
+	queue<location> q;
+	int pathlength = 0;
+	q.push(location(0,0));
+
+	while(!q.isEmpty()) {
+		location current = q.front();
+		q.pop();
+		visited.insert(current);
+
+		if (current == location(size-1, size-1)) {
+			return pathlength;
+		}
+
+		set<location> newLocations;
+		newLocations.insert(location(current.first+1, current.second));
+		newLocations.insert(location(current.first-1, current.second));
+		newLocations.insert(location(current.first, current.second+1));
+		newLocations.insert(location(current.first, current.second-1));
+
+		bool newLocation = false;
+
+		for (set<location>::iterator it = newLocations.begin(); it != newLocations.end(); ++it) {
+			if (it->first < 0 || it->first->size-1 || it->second<0 || it->second->size-1 || (visited.find(*it) != visited.end() ) ) {
+				if (!(labyrinth.find(pair<location, location>(current, *it)) != labyrinth.end()) || (labyrinth.find(pair<location, location>(*it, current)) != labyrinth.end()) ) {
+					q.push(*it);
+					newLocation = true;
+				}
+			}
+		}
+
+		if (newLocation) {
+			pathlength++;
+		}
+	}
 	return 0;
 }
 //////////////////////////////////////////////////////////////////

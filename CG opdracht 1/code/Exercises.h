@@ -9,15 +9,15 @@ using namespace std;
 float calc_mean(const std::list<float> values) {
 	// Initialize variable	
 	float sum = 0.f;
-	
+
 	// Loop through the list to get the sum
-	for (list<float>::const_iterator it = values.begin(); it != values.end(); it++) {
+	for (std::list<float>::const_iterator it = values.begin(); it != values.end(); it++) {
 		sum += *it;
 	}
-	
+
 	// Calculate the mean by dividing the sum by the size of the list
-	float mean = sum/values.size();
-	
+	float mean = sum / values.size();
+
 	// Return it afterwards
 	return mean;
 }
@@ -25,27 +25,28 @@ float calc_mean(const std::list<float> values) {
 float calc_StandardDeviation(const std::list<float> values, float mean) {
 	// Initialize variable
 	float cum_dev = 0.f;
-	
+
 	// Loop through the list
-	for (list<float>::iterator it = values.begin(); it != values.end(); it++) {
+	for (std::list<float>::const_iterator it = values.begin(); it != values.end(); it++) {
 		// To get the square of the difference of the value and the mean
-		cum_dev += pow((mean-*it),2);
+		cum_dev += pow((mean - *it), 2);
 	}
-	
+
 	// Calculate the mean of it
-	float cum_dev = cum_dev/values.size();
-	
+	cum_dev = cum_dev / values.size();
+
 	// And then take the square root of it
-	float cum_dev = sqrt(cum_dev);
-	
+	cum_dev = sqrt(cum_dev);
+
 	// Return it as last
 	return cum_dev;
 }
 
+
 std::pair<float, float> Statistics(const std::list<float>& values)
 {
 	// If the values list is empty, return 0
-	if (values.isEmpty()) return std::pair<float, float>(0.f, 0.f);
+	if (values.size() == 0) return std::pair<float, float>(0.f, 0.f);
 	
 	// Otherwise calculate the mean
 	float mean = calc_mean(values);
@@ -118,7 +119,8 @@ class Complex {
 ////////////////// Exercise 4 ////////////////////////////////////
 float WaterLevels(std::list<float> heights)
 {
-	float res = 0.f;
+	return 0.f;
+	/*float res = 0.f;
 	std::list<float>::const_iterator iterator;
 
 	// Get max value (Start)
@@ -171,7 +173,7 @@ float WaterLevels(std::list<float> heights)
 	// Add up both parts
 	res = res1 + res2;
 	
-	return res;
+	return res;*/
 }
 //////////////////////////////////////////////////////////////////
 

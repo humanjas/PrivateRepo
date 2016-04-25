@@ -21,8 +21,8 @@ float TreeTraversal(const Tree& t, TreeVisitor& visitor, bool countOnlyEvenLevel
 
 Complex ComplexOperation(Complex c1, Complex c2)
 {
-	return Complex(0, 0);
-	//    return (c1-c2) * (c1+c2);
+	//return Complex(0, 0);
+	return (c1 - c2) * (c1 + c2);
 }
 
 
@@ -51,7 +51,7 @@ bool equalFloats(float f1, float f2)
 ///////////////////////////////// Main function
 /////////////////////////////////
 
-int main() 
+int main()
 {
 	////////////// Test functions
 
@@ -66,13 +66,13 @@ int main()
 	stats.push_back(2.f);
 	stats.push_back(2.f);
 
-	std::pair<float, float> statsAnswer = Statistics(stats); 
+	std::pair<float, float> statsAnswer = Statistics(stats);
 
 	if (equalFloats(statsAnswer.first, 0.f) && equalFloats(statsAnswer.second, 2.0))
 	{
 		std::cout << "Exercise 1: Correct" << std::endl;
 	}
-	else 
+	else
 	{
 		std::cout << "Exercise 1: Incorrect" << std::endl;
 	}
@@ -96,7 +96,7 @@ int main()
 	///////////////////////////////////////////////////////////
 
 	////////////////////////// Exercise 3
-	Complex c1(1.f,  2.f);
+	Complex c1(1.f, 2.f);
 	Complex c2(5.f, -3.f);
 	Complex complexAnswer = ComplexOperation(c1, c2);
 
@@ -162,4 +162,3 @@ int main()
 	system("pause");
 	return 0;
 }
-

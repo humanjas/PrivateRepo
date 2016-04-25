@@ -3,6 +3,9 @@
 
 #include <list>
 #include <set>
+#include <iostream>     // std::cout
+#include <functional>   // std::greater
+#include <algorithm>    // std::sort
 
 using namespace std;
 ////////////////// Exercise 1 ////////////////////////////////////
@@ -119,17 +122,16 @@ class Complex {
 ////////////////// Exercise 4 ////////////////////////////////////
 float WaterLevels(std::list<float> heights)
 {
-	return 0.f;
-	/*float res = 0.f;
+	float res = 0.f;
 	std::list<float>::const_iterator iterator;
 
 	// Get max value (Start)
-		std::list<float>::const_iterator max = heights.begin();
-		for (iterator = heights.begin(); iterator != heights.end(); iterator++) {
-			if (*iterator > *max) {
-				max = iterator;
-			}
+	std::list<float>::const_iterator max = heights.begin();
+	for (iterator = heights.begin(); iterator != heights.end(); iterator++) {
+		if (*iterator > *max) {
+			max = iterator;
 		}
+	}
 	// (End)
 
 	// Split list (Start)
@@ -173,7 +175,7 @@ float WaterLevels(std::list<float> heights)
 	// Add up both parts
 	res = res1 + res2;
 	
-	return res;*/
+	return res;
 }
 //////////////////////////////////////////////////////////////////
 

@@ -1,11 +1,12 @@
 #ifndef EXERCISES_H
 #define EXERCISES_H
 
-#include <list>
-#include <set>
+#include <list>		// list
+#include <set>		// set
 #include <iostream>     // cout
 #include <functional>   // greater
 #include <algorithm>    // sort
+#include <queue> 	// queue
 
 using namespace std;
 ////////////////// Exercise 1 ////////////////////////////////////
@@ -189,7 +190,7 @@ int Labyrinth(set<pair<location, location> > labyrinth, int size)
 	int pathlength = 0;
 	q.push(location(0,0));
 
-	while(!q.isEmpty()) {
+	while(!q.empty()) {
 		location current = q.front();
 		q.pop();
 		visited.insert(current);
@@ -207,7 +208,7 @@ int Labyrinth(set<pair<location, location> > labyrinth, int size)
 		bool newLocation = false;
 
 		for (set<location>::iterator it = newLocations.begin(); it != newLocations.end(); ++it) {
-			if (it->first < 0 || it->first->size-1 || it->second<0 || it->second->size-1 || (visited.find(*it) != visited.end() ) ) {
+			if (it->first < 0 || it->first>size-1 || it->second<0 || it->second>size-1 || (visited.find(*it) != visited.end() ) ) {
 				if (!(labyrinth.find(pair<location, location>(current, *it)) != labyrinth.end()) || (labyrinth.find(pair<location, location>(*it, current)) != labyrinth.end()) ) {
 					q.push(*it);
 					newLocation = true;

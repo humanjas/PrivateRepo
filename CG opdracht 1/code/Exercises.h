@@ -121,62 +121,82 @@ class Complex {
 //////////////////////////////////////////////////////////////////
 
 ////////////////// Exercise 4 ////////////////////////////////////
-float WaterLevels(list<float> heights)
-{
-	float res = 0.f;
-	list<float>::const_iterator iterator;
+float WaterLevels(list<float> heights) {
+    vector<float> listHeights(heights.begin(), heights.end());
+    float volume = 0.0f;
+    unsigned int startx = 0;
+    unsigned int startheight = 0;
+    unsigned int endx = 0;
+    unsigned int endheight = 0;
+    unsigned int heights_total = listHeights.size();
+    std::vector<float> steps;
+    float stepsvolume = 0.0f;
 
-	// Get max value (Start)
-	list<float>::const_iterator max = heights.begin();
-	for (iterator = heights.begin(); iterator != heights.end(); iterator++) {
-		if (*iterator > *max) {
-			max = iterator;
-		}
-	}
-	// (End)
+    for(unsigned int x=0; x<heights_total; x++) {
+        if(x+1 < heights_total && listHeights[x] > listHeights[x+1] ) {
+            startx = x;
+            startheight = listHeights[startx];
+            break;
+        }
+    }
 
-	// Split list (Start)
-	list<float> temp1;
+    //not end
+    bool bEnd = false;
+    for(unsigned int x=0; x<heights_total; x++) {
+        if(x+1 <= heights_total && listHeights[x] > listHeights[x+1]) {
+            bEnd = true;
+        } else {
+            bEnd = false;
+            break;
+        }
+    }
 
-	temp1.splice(temp1.begin(), heights, max, heights.end());
-	//(End) 
-	// heights: (7, 6, 4, 7, 6)
-	// temp1: (9, 3, 1, 5, 3)
+    if(bEnd == true) return 0.0f;
 
-	// The maximum value that devides the water should be popped
-	temp1.pop_front();
-	// Temp now contains (3,1,5,3)
+    heights_total = heights_total - startx;
+    bool found = false;
+    for(unsigned int x=startx+1; x<heights_total; x++) {
+        if(listHeights[x] >= startheight) {
+            endx = x;
+            endheight = listHeights[x];
+            found = true;
+            break;
+        } else {
+            steps.push_back(listHeights[x]);
+            stepsvolume += listHeights[x];
+        }
+    }
 
-	// There can't be water on both end points
-	temp1.pop_back();
-	// Temp1 now contains (3,1,5)
-	heights.pop_front();
-	// Heights now contains (6,4,7,6)
+    if(found == false) {
+        steps.clear();
+        stepsvolume = 0;
+        for(unsigned int x=startx+1; x<heights_total; x++) {
+            if(listHeights[x] >= endheight) {
+                endx = x;
+                endheight = listHeights[x];
+                found = true;
+            }
+        }
+    }
 
+    if(startheight > endheight) {
+        for(unsigned int x=startx+1; x<endx; x++) {
+            stepsvolume += listHeights[x];
+            steps.push_back(listHeights[x]);
+        }
+        volume += endheight * steps.size() - stepsvolume;
+    }
 
-	heights.sort(greater<float>());
-	// Heights now contains (7,7,6,6,4)
-	temp1.sort(greater<float>());
-	// Temp1 now contains (5,3,1)
+    if(startheight <= endheight) {
+        volume += startheight * steps.size() - stepsvolume;
+    }
 
-	// Calculate water of the first part (Start)
-	float res1 = 0.f;
-	for (list<float>::const_iterator i = heights.begin(); i != heights.end(); i++){
-		res1 = res1 + (heights.front() - (*i));
-	}
-	//(End)
+    std:list<float> newList;
+    for(unsigned int i = endx; i<listHeights.size(); i++) {
+        newList.push_back(listHeights[i]);
+    }
 
-	// Calculate water of the second part (Start)
-	float res2 = 0.f;
-	for (list<float>::const_iterator i = temp1.begin(); i != temp1.end(); i++){
-		res2 = res2 + (temp1.front() - (*i));
-	}
-	//(End)
-
-	// Add up both parts
-	res = res1 + res2;
-	
-	return res;
+    return volume + WaterLevels(newList);
 }
 //////////////////////////////////////////////////////////////////
 

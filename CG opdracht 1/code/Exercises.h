@@ -201,7 +201,7 @@ float WaterLevels(list<float> heights) {
 //////////////////////////////////////////////////////////////////
 
 ////////////////// Exercise 5 ////////////////////////////////////
-typedef pair<int, int> location;
+typedef std::pair<int, int> location;
 
 int Labyrinth(set<pair<location, location> > labyrinth, int size)
 {
